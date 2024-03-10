@@ -27,6 +27,10 @@
 #else
 #include <sys/stat.h>
 #endif
+// https://discourse.libsdl.org/t/sdl-fixed-build-on-older-windows-sdk/48950
+#ifndef WC_ERR_INVALID_CHARS
+#define WC_ERR_INVALID_CHARS 0x00000080
+#endif
 
 // 1970-01-01 - 1601-01-01 in 100ns
 #define EPOCH_DIFF_100NS 116444736000000000LL

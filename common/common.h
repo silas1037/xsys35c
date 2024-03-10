@@ -86,11 +86,11 @@ static inline bool is_compacted_sjis(uint8_t c) {
 }
 
 static inline bool is_sjis_byte1(uint8_t c) {
-	return (0x81 <= c && c <= 0x9f) || (0xe0 <= c && c <= 0xfc);
+	return (0x81 <= c && c <= 0xfe);
 }
 
 static inline bool is_sjis_byte2(uint8_t c) {
-	return 0x40 <= c && c <= 0xfc && c != 0x7f;
+	return 0x40 <= c && c <= 0xfe && c != 0x7f;
 }
 
 #define UTF8_TRAIL_BYTE(b) ((int8_t)(b) < -0x40)

@@ -1,0 +1,95 @@
+read_hed
+srcs
+vec_push(sources, path_join(dir, line));
+
+typedef struct {
+	void **data;
+	int len;
+	int cap;
+} Vector;
+
+build
+
+1.dic
+map_put read_file
+
+2.
+read_file
+
+sjis2utf_sub
+sjis2utf
+
+
+sjisutf.c
+
+sjis2utf_sub
+
+is_valid_sjis
+
+s2u
+
+3.preprocess
+
+void preprocess(Compiler *comp, const char *source, int pageno)
+
+preprocess_done(compiler);
+
+4.
+
+$compiler
+
+typedef struct {
+	Vector *src_paths;
+	Vector *variables;
+	HashMap *symbols;   // variables and constants
+	HashMap *functions;
+	Map *dlls;
+	Buffer *msg_buf;
+	int msg_count;
+	Sco *scos;
+	struct DebugInfo *dbg_info;
+} Compiler;
+
+typedef struct {
+	const char *name;  // in SJIS
+	time_t timestamp;
+	const uint8_t *data;
+	int size;
+	int volume;  // volume id (1 for *A.ALD, 2 for *B.ALD, ...)
+} AldEntry;
+
+5.
+
+Sco *sco = compile(compiler, source, i);
+
+typedef struct {
+	uint8_t *buf;
+	int len;
+	int cap;
+} Buffer;
+
+typedef struct {
+	Buffer *buf;
+	int ald_volume;
+} Sco;
+
+6.
+
+flow: source compiler sco e ald ald_path
+
+context:
+sco->buf->buf
+AldEntry->data
+ald
+
+ald_write(ald, i, fp);
+
+write_entry
+
+7.
+
+to_output_encoding
+
+修改：
+
+utf2sjis

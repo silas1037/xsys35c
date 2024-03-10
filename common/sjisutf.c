@@ -151,10 +151,10 @@ static int unicode_to_sjis(int u) {
 	if (!u2s) {
 		// Create a reverse lookup table from s2u.
 		u2s = calloc(0x10000, sizeof(uint16_t));
-		for (int b1 = 0x81; b1 <= 0xfc; b1++) {
-			if (b1 >= 0xa0 && b1 <= 0xdf)
-				continue;
-			for (int b2 = 0x40; b2 <= 0xfc; b2++) {
+		for (int b1 = 0x81; b1 <= 0xfe; b1++) {
+			//if (b1 >= 0xa0 && b1 <= 0xdf)
+			//	continue;
+			for (int b2 = 0x40; b2 <= 0xfe; b2++) {
 				uint16_t u = s2u[b1 - 0x80][b2 - 0x40];
 				if (u && !u2s[u])
 					u2s[u] = b1 << 8 | b2;
@@ -180,10 +180,11 @@ char *sjis2utf_sub(const char *str, int substitution_char) {
 		}
 
 		int c;
-		if (*src >= 0xa0 && *src <= 0xdf) {
+		/*if (*src >= 0xa0 && *src <= 0xdf) {
 			c = 0xff60 + *src - 0xa0;
 			src++;
-		} else if (is_valid_sjis(src[0], src[1])) {
+		} else */
+		if (is_valid_sjis(src[0], src[1])) {
 			c = s2u[src[0] - 0x80][src[1] - 0x40];
 			src += 2;
 		} else {
@@ -234,9 +235,9 @@ char *utf2sjis_sub(const char *str, int substitution_char) {
 			continue;
 		}
 
-		if (u > 0xff60 && u <= 0xff9f) {
+		/*if (u > 0xff60 && u <= 0xff9f) {
 			*dstp++ = u - 0xff60 + 0xa0;
-		} else {
+		} else {*/
 			int c = unicode_to_sjis(u);
 			if (c) {
 				*dstp++ = c >> 8;
@@ -246,7 +247,7 @@ char *utf2sjis_sub(const char *str, int substitution_char) {
 					error("Codepoint U+%04X cannot be converted to Shift_JIS", u);
 				*dstp++ = substitution_char;
 			}
-		}
+		//}
 	}
 	*dstp = '\0';
 	return (char*)dst;
@@ -278,8 +279,9 @@ const char *validate_utf8(const char *s) {
 }
 
 uint8_t compact_sjis(uint8_t c1, uint8_t c2) {
-	return c1 == 0x81 ? hankaku81[c2 - 0x40] :
-		   c1 == 0x82 ? hankaku82[c2 - 0x40] : 0;
+	return 0;
+	//return c1 == 0x81 ? hankaku81[c2 - 0x40] :
+	//	   c1 == 0x82 ? hankaku82[c2 - 0x40] : 0;
 }
 
 uint16_t expand_sjis(uint8_t c) {
