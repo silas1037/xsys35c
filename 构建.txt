@@ -1,1 +1,22 @@
+
+cmake-3.29.0-rc3-windows-x86_64.msi
+meson-1.3.2-64.msi
+msys2-x86_64-20240113.exe
+
+https://blog.csdn.net/dorlolo/article/details/131009754
+
+MSYS UCRT64 shell：
+pacman -Syuu
+pacman -S mingw-w64-x86_64-gcc
+pacman -S mingw-w64-x86_64-pkg-config
+pacman -S mingw-w64-x86_64-zlib
+pacman -S mingw-w64-x86_64-libpng
+
+PKG_CONFIG_PATH设置
+C:\msys64\mingw64\lib\pkgconfig
+
+环境变量
+C:\Program Files\Meson\;C:\Program Files\CMake\bin;C:\msys64\mingw64\bin;
+
+meson build2
 ninja -C build2
