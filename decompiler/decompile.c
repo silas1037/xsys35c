@@ -127,16 +127,16 @@ static void dc_put_string_n(const char *s, int len, unsigned flags) {
 			dc_putc(c);
 			while (UTF8_TRAIL_BYTE(*s))
 				dc_putc(*s++);
-		} else if (is_compacted_sjis(c)) {
-			if (flags & STRING_EXPAND) {
-				uint16_t full = expand_sjis(c);
-				dc_putc(full >> 8);
-				dc_putc(full & 0xff);
-			} else {
-				dc_putc(c);
-			}
-		} else if (c == 0xde || c == 0xdf) {  // Halfwidth (semi-)voiced sound mark
-			dc_putc(c);
+		//} else if (is_compacted_sjis(c)) {
+		//	if (flags & STRING_EXPAND) {
+		//		uint16_t full = expand_sjis(c);
+		//		dc_putc(full >> 8);
+		//		dc_putc(full & 0xff);
+		//	} else {
+		//		dc_putc(c);
+		//	}
+		//} else if (c == 0xde || c == 0xdf) {  // Halfwidth (semi-)voiced sound mark
+		//	dc_putc(c);
 		} else {
 			assert(is_sjis_byte1(c));
 			uint8_t c2 = *s++;
@@ -1903,6 +1903,7 @@ void decompile(Vector *scos, Ain *ain, const char *outdir, const char *ald_basen
 	preprocess(scos, ain);
 
 	// Analyze
+	puts("analyze");
 	bool done = false;
 	while (!done) {
 		done = true;
@@ -1919,6 +1920,7 @@ void decompile(Vector *scos, Ain *ain, const char *outdir, const char *ald_basen
 	}
 
 	// Decompile
+	puts("decompile");
 	for (int i = 0; i < scos->len; i++) {
 		Sco *sco = scos->data[i];
 		if (!sco) {
